@@ -21,7 +21,14 @@ function handleLikeClick(tweetId) {
     return tweetId === tweet.uuid;
   })[0];
 
-  targetTweetObj.likes++;
+  if (targetTweetObj.isLiked) {
+    targetTweetObj.likes--;
+    targetTweetObj.isLiked = false;
+  } else {
+    targetTweetObj.isLiked = true;
+    targetTweetObj.likes++;
+  }
+
   render();
 }
 
