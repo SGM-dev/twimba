@@ -62,8 +62,19 @@ function getFeedHtml() {
       retweetIconClass = "retweeted";
     }
 
+    let repliesHtml = ``;
     if (tweet.replies.length > 0) {
-      console.log(tweet.uuid);
+      tweet.replies.forEach(function (reply) {
+        repliesHtml += `<div class="tweet-reply">
+        <div class="tweet-inner">
+            <img src="${reply.profilePic}" class="profile-pic">
+                <div>
+                    <p class="handle">${reply.handle}</p>
+                    <p class="tweet-text">${reply.tweetText}</p>
+                </div>
+            </div>
+    </div>`;
+      });
     }
 
     feedHtml += `<div class="tweet">
@@ -74,20 +85,29 @@ function getFeedHtml() {
             <p class="tweet-text">${tweet.tweetText}</p>
             <div class="tweet-details">
                 <span class="tweet-detail">
-                <i class="fa-regular fa-comment-dots" data-reply="${tweet.uuid}"></i>
+                    <i class="fa-regular fa-comment-dots"
+                    data-reply="${tweet.uuid}"
+                    ></i>
                     ${tweet.replies.length}
                 </span>
                 <span class="tweet-detail">
-                <i class="fa-solid fa-heart ${likeIconClass}" data-like="${tweet.uuid}"></i>
+                    <i class="fa-solid fa-heart ${likeIconClass}"
+                    data-like="${tweet.uuid}"
+                    ></i>
                     ${tweet.likes}
                 </span>
                 <span class="tweet-detail">
-                <i class="fa-solid fa-retweet ${retweetIconClass}" data-retweet="${tweet.uuid}"></i>
+                    <i class="fa-solid fa-retweet ${retweetIconClass}"
+                    data-retweet="${tweet.uuid}"
+                    ></i>
                     ${tweet.retweets}
                 </span>
             </div>   
         </div>            
     </div>
+    <div id="replies-${tweet.uuid}">
+        ${repliesHtml}
+    </div>   
 </div>`;
   });
 
