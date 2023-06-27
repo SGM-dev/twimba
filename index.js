@@ -1,4 +1,3 @@
-// import Data
 import { tweetsData } from "./data.js";
 
 const tweetInput = document.getElementById("tweet-input");
@@ -63,6 +62,10 @@ function getFeedHtml() {
       retweetIconClass = "retweeted";
     }
 
+    if (tweet.replies.length > 0) {
+      console.log(tweet.uuid);
+    }
+
     feedHtml += `<div class="tweet">
     <div class="tweet-inner">
         <img src="${tweet.profilePic}" class="profile-pic">
@@ -87,6 +90,7 @@ function getFeedHtml() {
     </div>
 </div>`;
   });
+
   return feedHtml;
 }
 
