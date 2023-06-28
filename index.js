@@ -1,5 +1,8 @@
-import { tweetsData } from "./data.js";
+import { tweetsData as defaultTweetsData } from "./data.js";
 import { v4 as uuidv4 } from "https://jspm.dev/uuid";
+
+let tweetsData =
+  JSON.parse(localStorage.getItem("tweetsData")) || defaultTweetsData;
 
 document.addEventListener("click", function (e) {
   if (e.target.dataset.like) {
@@ -27,7 +30,7 @@ function handleLikeClick(tweetId) {
   }
 
   targetTweetObj.isLiked = !targetTweetObj.isLiked;
-
+  saveDataToLocalStorage();
   render();
 }
 
@@ -44,6 +47,7 @@ function handleRetweetClick(tweetId) {
 
   targetTweetObj.isRetweeted = !targetTweetObj.isRetweeted;
 
+  saveDataToLocalStorage();
   render();
 }
 
@@ -66,6 +70,7 @@ function handleTweetBtnClick() {
       isRetweeted: false,
       uuid: uuidv4(),
     });
+    saveDataToLocalStorage();
     render();
     tweetInput.value = "";
   }
@@ -83,6 +88,8 @@ function handleReplyBtnClick(replyId) {
       profilePic: `images/scrimbalogo.png`,
       tweetText: replyInput.value,
     });
+
+    saveDataToLocalStorage();
     render();
     handleReplyClick(replyId);
     replyInput.value = "";
@@ -161,6 +168,10 @@ function getFeedHtml() {
   });
 
   return feedHtml;
+}
+
+function saveDataToLocalStorage() {
+  localStorage.setItem("tweetsData", JSON.stringify(tweetsData));
 }
 
 function render() {
