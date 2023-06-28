@@ -15,6 +15,8 @@ document.addEventListener("click", function (e) {
     handleTweetBtnClick();
   } else if (e.target.dataset.replyInput) {
     handleReplyBtnClick(e.target.dataset.replyInput);
+  } else if (e.target.dataset.delete) {
+    console.log(e.target.dataset.delete);
   }
 });
 
@@ -59,7 +61,7 @@ function handleTweetBtnClick() {
   const tweetInput = document.getElementById("tweet-input");
 
   if (tweetInput.value) {
-    tweetsData.unshift({
+    const newTweet = {
       handle: `@Scrimba`,
       profilePic: `images/scrimbalogo.png`,
       likes: 0,
@@ -69,9 +71,15 @@ function handleTweetBtnClick() {
       isLiked: false,
       isRetweeted: false,
       uuid: uuidv4(),
-    });
+    };
+    tweetsData.unshift(newTweet);
     saveDataToLocalStorage();
+
+    localStorage.setItem("localId", newTweet.uuid);
     render();
+    document
+      .getElementById(`delete-${newTweet.uuid}`)
+      .classList.toggle("hidden");
     tweetInput.value = "";
   }
 }
@@ -158,6 +166,9 @@ function getFeedHtml() {
                     ></i>
                     ${tweet.retweets}
                 </span>
+                <span class="tweet-detail hidden" id="delete-${tweet.uuid}">
+                <i class="fa-solid fa-trash-can" data-delete="${tweet.uuid}"></i>
+            </span>
             </div>   
         </div>            
     </div>
