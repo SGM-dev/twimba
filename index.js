@@ -16,7 +16,7 @@ document.addEventListener("click", function (e) {
   } else if (e.target.dataset.replyInput) {
     handleReplyBtnClick(e.target.dataset.replyInput);
   } else if (e.target.dataset.delete) {
-    console.log(e.target.dataset.delete);
+    handleDeleteClick();
   }
 });
 
@@ -55,6 +55,13 @@ function handleRetweetClick(tweetId) {
 
 function handleReplyClick(replyId) {
   document.getElementById(`replies-${replyId}`).classList.toggle("hidden");
+}
+
+function handleDeleteClick() {
+  tweetsData.shift();
+
+  saveDataToLocalStorage();
+  render();
 }
 
 function handleTweetBtnClick() {
