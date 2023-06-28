@@ -66,6 +66,12 @@ function handleDeleteClick() {
 
 function handleTweetBtnClick() {
   const tweetInput = document.getElementById("tweet-input");
+  const localId = localStorage.getItem("localId");
+
+  if (localId) {
+    window.alert("Tweet limit reached!");
+    return;
+  }
 
   if (tweetInput.value) {
     const newTweet = {
