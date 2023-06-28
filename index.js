@@ -10,6 +10,8 @@ document.addEventListener("click", function (e) {
     handleReplyClick(e.target.dataset.reply);
   } else if (e.target.id === "tweet-btn") {
     handleTweetBtnClick();
+  } else if (e.target.dataset.replyInput) {
+    handleReplyBtnClick(e.target.dataset.replyInput);
   }
 });
 
@@ -69,6 +71,24 @@ function handleTweetBtnClick() {
   }
 }
 
+function handleReplyBtnClick(replyId) {
+  const targetTweetObj = tweetsData.filter(function (tweet) {
+    return tweet.uuid === replyId;
+  })[0];
+  const replyInput = document.getElementById(`reply-input-${replyId}`);
+
+  if (replyInput.value) {
+    targetTweetObj.replies.unshift({
+      handle: `@Scrimba`,
+      profilePic: `images/scrimbalogo.png`,
+      tweetText: replyInput.value,
+    });
+    render();
+    handleReplyClick(replyId);
+    replyInput.value = "";
+  }
+}
+
 function getFeedHtml() {
   let feedHtml = ``;
   tweetsData.forEach(function (tweet) {
@@ -82,7 +102,16 @@ function getFeedHtml() {
       retweetIconClass = "retweeted";
     }
 
-    let repliesHtml = ``;
+    let repliesHtml = `    
+    <div class="tweet-reply">
+    <div class="tweet-inner">
+      <div class="tweet-input-area reply-area">
+      <img src="images/scrimbalogo.png" class="profile-pic" />
+      <input type="text" placeholder="Tweet your reply!" id="reply-input-${tweet.uuid}"></textarea>
+    </div>
+    <button class="reply-btn" data-reply-input="${tweet.uuid}">Reply</button>
+  </div>
+</div>`;
     if (tweet.replies.length > 0) {
       tweet.replies.forEach(function (reply) {
         repliesHtml += `<div class="tweet-reply">
@@ -126,15 +155,6 @@ function getFeedHtml() {
         </div>            
     </div>
     <div class="hidden" id="replies-${tweet.uuid}">
-    <div class="tweet-reply">
-        <div class="tweet-inner">
-          <div class="tweet-input-area reply-area">
-          <img src="images/scrimbalogo.png" class="profile-pic" />
-          <input type="text" placeholder="Tweet your reply!" id="reply-input"></textarea>
-        </div>
-        <button id="reply-btn">Reply</button>
-      </div>
-    </div>
         ${repliesHtml}
     </div>   
 </div>`;

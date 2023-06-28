@@ -116,7 +116,7 @@ input {
   border: none;
 }
 
-#reply-btn {
+.reply-btn {
   width: fit-content;
   font-size:medium;
   font-weight: normal;
