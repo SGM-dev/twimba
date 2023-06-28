@@ -59,7 +59,7 @@ function handleReplyClick(replyId) {
 
 function handleDeleteClick() {
   tweetsData.shift();
-
+  localStorage.removeItem("localId");
   saveDataToLocalStorage();
   render();
 }
